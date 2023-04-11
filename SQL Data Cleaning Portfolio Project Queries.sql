@@ -6,6 +6,9 @@ SELECT *
 From [Data Cleaning Project]..NashvilleHousing
 
 
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
 --Standardize Date Format
 
 SELECT saleDateConverted, CONVERT(Date, SaleDate)
@@ -19,6 +22,9 @@ Add SaleDateConverted Date;
 
 Update NashvilleHousing
 SET SaleDateConverted = CONVERT(Date,SaleDate)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
 
 
 --Populate Property Address Data
@@ -42,6 +48,9 @@ JOIN [Data Cleaning Project]..NashvilleHousing b
 ON a.ParcelID = b.ParcelID
 AND a.[UniqueID ] <> b.[UniqueID ]
 Where a.PropertyAddress is null
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
 
 
 --Converting Address Into Individual Columns (Street, City, State)
@@ -98,6 +107,9 @@ Update [Data Cleaning Project]..NashvilleHousing
 SET OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',','.'), 1)
 
 
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
 --Change Y and N to Yes and No in "Sold as Vacant" Field
 
 SELECT DISTINCT(SoldasVacant), Count(SoldasVacant)
@@ -117,6 +129,9 @@ SET SoldAsVacant = CASE When SoldAsVacant = 'Y' THEN 'Yes'
 When SoldAsVacant = 'N' THEN 'No'
 ELSE SoldAsVacant
 END
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
 
 
 -- Remove Duplicates
@@ -147,13 +162,13 @@ WHERE row_num > 1
 --ORDER BY PropertyAddress
 
 
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
 --Delete Unused Data
 
 SELECT *
 FROM [Data Cleaning Project]..NashvilleHousing
 
 ALTER TABLE [Data Cleaning Project]..NashvilleHousing
-DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress
-
-ALTER TABLE [Data Cleaning Project]..NashvilleHousing
-DROP COLUMN SaleDate
+DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress, SaleDate
